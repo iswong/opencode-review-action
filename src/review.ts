@@ -80,7 +80,7 @@ export async function runReview(
   // repo and cause the model to loop through every Ansible role file.
   // The full diff is already embedded in the prompt; gh API calls work fine
   // regardless of cwd as long as GH_TOKEN and GITHUB_REPOSITORY are set.
-  await spawnOpencode(["run", "--verbose", "-m", model, fullPrompt], {
+  await spawnOpencode(["run", "-m", model, fullPrompt], {
     cwd: os.tmpdir(),
     env: {
       ...process.env,
