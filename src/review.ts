@@ -1,7 +1,7 @@
-import * as actionsExec from "@actions/exec";
+import { spawn } from "node:child_process";
+import * as os from "node:os";
 import * as core from "@actions/core";
-import * as os from "os";
-import { spawn } from "child_process";
+import * as actionsExec from "@actions/exec";
 import { countReviewComments } from "./comments";
 import { buildPrompt, fetchPRContext } from "./prompt";
 
@@ -24,10 +24,7 @@ async function installOpencode(): Promise<void> {
   await actionsExec.exec("npm", ["install", "-g", "opencode-ai"]);
 }
 
-async function spawnOpencode(
-  args: string[],
-  options: { cwd: string; env: NodeJS.ProcessEnv },
-): Promise<void> {
+async function spawnOpencode(args: string[], options: { cwd: string; env: NodeJS.ProcessEnv }): Promise<void> {
   const child = spawn("opencode", args, {
     ...options,
     stdio: "inherit",
@@ -35,9 +32,7 @@ async function spawnOpencode(
 
   const timeoutHandle = setTimeout(() => {
     const pid = child.pid;
-    core.warning(
-      `opencode exceeded ${OPENCODE_TIMEOUT_MS / 1000}s — interrupting PID ${pid}`,
-    );
+    core.warning(`opencode exceeded ${OPENCODE_TIMEOUT_MS / 1000}s — interrupting PID ${pid}`);
     // SIGUSR1 triggers the Node.js inspector which prints a stack snapshot to
     // stderr; give it a moment to flush before sending SIGINT to terminate.
     try {
