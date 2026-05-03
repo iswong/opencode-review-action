@@ -6,11 +6,7 @@ async function run(): Promise<void> {
   const model = core.getInput("model") || "opencode/minimax-m2.5-free";
   const apiKey = core.getInput("api-key", { required: true });
   const mandatory = core.getInput("mandatory") === "true";
-  const token = process.env.GITHUB_TOKEN ?? "";
-
-  if (!token) {
-    throw new Error("GITHUB_TOKEN environment variable is not set");
-  }
+  const token = core.getInput("github-token", { required: true });
 
   const { severe, advisory } = await runReview(prompt, model, apiKey, token);
 

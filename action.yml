@@ -3,6 +3,10 @@ description: Runs an AI-powered code review on pull requests using opencode
 author: iswong
 
 inputs:
+  github-token:
+    description: GitHub token for API access. Defaults to the built-in token provided by Actions.
+    required: false
+    default: ${{ github.token }}
   prompt:
     description: >
       The "what to check" review instructions. PR metadata and comment-format
