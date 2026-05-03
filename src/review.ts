@@ -35,6 +35,8 @@ export async function runReview(
       ...process.env,
       OPENCODE_API_KEY: apiKey,
       OPENCODE_PERMISSION,
+      GITHUB_TOKEN: token,
+      GH_TOKEN: token,
     },
   });
 
