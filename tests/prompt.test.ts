@@ -47,4 +47,10 @@ describe("buildPrompt", () => {
     const result = buildPrompt("Check", mockCtx);
     expect(result).toContain("This PR adds a new feature");
   });
+
+  it("formats a numeric diff value as a string (coercion safety)", () => {
+    const ctx = { ...mockCtx, diff: String(12345 as unknown as string) };
+    const result = buildPrompt("Check", ctx);
+    expect(result).toContain("12345");
+  });
 });

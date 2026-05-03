@@ -83,12 +83,13 @@ export async function runReview(
   await spawnOpencode(["run", "-m", model, fullPrompt], {
     cwd: os.tmpdir(),
     env: {
-      ...process.env,
       OPENCODE_API_KEY: apiKey,
       OPENCODE_PERMISSION,
       GITHUB_TOKEN: token,
       GH_TOKEN: token,
       GITHUB_REPOSITORY: ctx.repo,
+      HOME: process.env.HOME,
+      PATH: process.env.PATH,
     },
   });
 
