@@ -16,15 +16,15 @@ inputs:
     description: opencode API key. Pass from a repo secret.
     required: true
   mandatory:
-    description: When true, fails the build if the AI posts any Severe: comment.
+    description: "When true, fails the build if the AI posts any Severe: comment."
     required: false
     default: "false"
 
 outputs:
   severe-count:
-    description: Number of Severe: comments posted this run.
+    description: "Number of Severe: comments posted this run."
   advisory-count:
-    description: Number of Advisory: comments posted this run.
+    description: "Number of Advisory: comments posted this run."
 
 runs:
   using: node20
