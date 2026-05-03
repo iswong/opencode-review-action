@@ -15,12 +15,18 @@ const OPENCODE_PERMISSION = JSON.stringify({
   },
 });
 
+async function installOpencode(): Promise<void> {
+  await actionsExec.exec("npm", ["install", "-g", "opencode-ai"]);
+}
+
 export async function runReview(
   callerPrompt: string,
   model: string,
   apiKey: string,
   token: string,
 ): Promise<ReviewResult> {
+  await installOpencode();
+
   const ctx = await fetchPRContext(token);
   const fullPrompt = buildPrompt(callerPrompt, ctx);
 
