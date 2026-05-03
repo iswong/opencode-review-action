@@ -65,6 +65,7 @@ gh api \\
 \`\`\`
 
 Hard rules:
+- The diff above is complete — do NOT run \`gh pr diff\` or use file-reading tools to fetch more context.
 - Do NOT run \`gh pr review\` (approve / request-changes / dismiss) — you are not authorised to change PR state.
 - Do NOT post a comment if there is nothing to flag. Silence is the correct response when the code is clean.
 - Do NOT praise the code or say "lgtm". Only comment when there is a real issue.`;
