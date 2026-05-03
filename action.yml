@@ -1,0 +1,35 @@
+name: opencode AI Code Review
+description: Runs an AI-powered code review on pull requests using opencode
+author: iswong
+
+inputs:
+  prompt:
+    description: >
+      The "what to check" review instructions. PR metadata and comment-format
+      rules are injected automatically.
+    required: true
+  model:
+    description: opencode model identifier.
+    required: false
+    default: opencode/minimax-m2.5-free
+  api-key:
+    description: opencode API key. Pass from a repo secret.
+    required: true
+  mandatory:
+    description: When true, fails the build if the AI posts any Severe: comment.
+    required: false
+    default: "false"
+
+outputs:
+  severe-count:
+    description: Number of Severe: comments posted this run.
+  advisory-count:
+    description: Number of Advisory: comments posted this run.
+
+runs:
+  using: node20
+  main: dist/index.js
+
+branding:
+  icon: eye
+  color: purple
