@@ -62,4 +62,24 @@ describe("parseCommentCounts", () => {
     expect(result.severe).toBe(0);
     expect(result.advisory).toBe(0);
   });
+
+  it("counts SEVERE: (uppercase) on matching SHA", () => {
+    const comments: ReviewComment[] = [{ body: "SEVERE: all-caps tier", commit_id: sha }];
+    expect(parseCommentCounts(comments, sha).severe).toBe(1);
+  });
+
+  it("counts severe: (lowercase) on matching SHA", () => {
+    const comments: ReviewComment[] = [{ body: "severe: lower-case tier", commit_id: sha }];
+    expect(parseCommentCounts(comments, sha).severe).toBe(1);
+  });
+
+  it("counts ADVISORY: (uppercase) on matching SHA", () => {
+    const comments: ReviewComment[] = [{ body: "ADVISORY: all-caps advisory", commit_id: sha }];
+    expect(parseCommentCounts(comments, sha).advisory).toBe(1);
+  });
+
+  it("counts advisory: (lowercase) on matching SHA", () => {
+    const comments: ReviewComment[] = [{ body: "advisory: lower-case advisory", commit_id: sha }];
+    expect(parseCommentCounts(comments, sha).advisory).toBe(1);
+  });
 });

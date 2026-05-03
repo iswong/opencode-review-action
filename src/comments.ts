@@ -16,9 +16,9 @@ export function parseCommentCounts(comments: ReviewComment[], sha: string): Comm
 
   for (const comment of comments) {
     if (comment.commit_id !== sha) continue;
-    const body = comment.body.trimStart();
-    if (body.startsWith("Severe:")) severe++;
-    else if (body.startsWith("Advisory:")) advisory++;
+    const body = comment.body.trimStart().toLowerCase();
+    if (body.startsWith("severe:")) severe++;
+    else if (body.startsWith("advisory:")) advisory++;
   }
 
   return { severe, advisory };

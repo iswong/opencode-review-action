@@ -34,7 +34,7 @@ export async function fetchPRContext(token: string): Promise<PRContext> {
   return {
     title: pr.title,
     body: pr.body ?? "",
-    diff: diffResponse.data as unknown as string,
+    diff: String(diffResponse.data),
     sha: pr.head.sha,
     repo: `${ctx.repo.owner}/${ctx.repo.repo}`,
     number: pr.number,
