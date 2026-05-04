@@ -65,7 +65,9 @@ gh api \\
 \`\`\`
 
 Hard rules:
-- The diff above is complete — do NOT run \`gh pr diff\` or use file-reading tools to fetch more context.
+- The diff above is complete — do NOT run \`gh pr diff\` to fetch more context.
+- You MAY read specific files from the repository (using cat, grep, find, etc.) to check whether a change is consistent with the existing codebase. Focus only on files directly relevant to the diff.
+- Do NOT recursively scan large directory trees or read files unrelated to the changed code.
 - Do NOT run \`gh pr review\` (approve / request-changes / dismiss) — you are not authorised to change PR state.
 - Do NOT post a comment if there is nothing to flag. Silence is the correct response when the code is clean.
 - Do NOT praise the code or say "lgtm". Only comment when there is a real issue.`;

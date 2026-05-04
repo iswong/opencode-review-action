@@ -1,5 +1,4 @@
 import { spawn } from "node:child_process";
-import * as os from "node:os";
 import * as core from "@actions/core";
 import * as actionsExec from "@actions/exec";
 import { countReviewComments } from "./comments";
@@ -84,18 +83,15 @@ export async function runReview(
   const ctx = await fetchPRContext(token);
   const fullPrompt = buildPrompt(callerPrompt, ctx);
 
-  // Run from a temp dir so opencode's file tool cannot read the checked-out
-  // repo and cause the model to loop through every Ansible role file.
-  // The full diff is already embedded in the prompt; gh API calls work fine
-  // regardless of cwd as long as GH_TOKEN and GITHUB_REPOSITORY are set.
   await spawnOpencode(["run", "-m", model, fullPrompt], {
-    cwd: os.tmpdir(),
+    cwd: process.env.GITHUB_WORKSPACE ?? process.cwd(),
     env: {
       OPENCODE_API_KEY: apiKey,
       OPENCODE_PERMISSION,
       GITHUB_TOKEN: token,
       GH_TOKEN: token,
       GITHUB_REPOSITORY: ctx.repo,
+      GITHUB_WORKSPACE: process.env.GITHUB_WORKSPACE,
       HOME: process.env.HOME,
       PATH: process.env.PATH,
     },
