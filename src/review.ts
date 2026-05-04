@@ -78,11 +78,22 @@ export async function runReview(
   apiKey: string,
   token: string,
 ): Promise<ReviewResult> {
+  core.info("Installing opencode...");
   await installOpencode();
+  core.info("opencode installed");
 
+  core.info("Fetching PR context...");
   const ctx = await fetchPRContext(token);
-  const fullPrompt = buildPrompt(callerPrompt, ctx);
+  core.debug(`PR context: repo=${ctx.repo} number=${ctx.number} sha=${ctx.sha}`);
+  core.debug(`PR title: ${ctx.title}`);
+  core.debug(`Diff length: ${ctx.diff.length} chars`);
+  core.info(`Reviewing PR #${ctx.number} in ${ctx.repo} at ${ctx.sha}`);
 
+  const fullPrompt = buildPrompt(callerPrompt, ctx);
+  core.debug(`Full prompt length: ${fullPrompt.length} chars`);
+  core.debug(`Model: ${model}`);
+
+  core.info(`Running opencode with model ${model}...`);
   await spawnOpencode(["run", "-m", model, fullPrompt], {
     cwd: process.env.GITHUB_WORKSPACE ?? process.cwd(),
     env: {
@@ -96,6 +107,12 @@ export async function runReview(
       PATH: process.env.PATH,
     },
   });
+  core.info("opencode run complete");
 
-  return countReviewComments(token, ctx.number, ctx.sha);
+  core.info("Counting posted review comments...");
+  const result = await countReviewComments(token, ctx.number, ctx.sha);
+  core.debug(`Comment counts: severe=${result.severe} advisory=${result.advisory}`);
+  core.info(`Review complete — severe: ${result.severe}, advisory: ${result.advisory}`);
+
+  return result;
 }
