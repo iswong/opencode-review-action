@@ -49,20 +49,17 @@ You MUST prefix every comment with one of these tiers:
 - **Severe:** — security vulnerabilities, broken idempotency, data-loss risk, or any issue that must be fixed before merge.
 - **Silence** — if the code is clean, post nothing. Do not invent findings.
 
-Post inline review comments using this exact command for each finding (replace \`Advisory:\` with \`Severe:\` as appropriate):
+## Posting Comments — CRITICAL REQUIREMENT
 
-\`\`\`sh
-gh api \\
-  --method POST \\
-  -H "Accept: application/vnd.github+json" \\
-  -H "X-GitHub-Api-Version: 2022-11-28" \\
-  /repos/${ctx.repo}/pulls/${ctx.number}/comments \\
-  -f "body=Advisory: <your comment here>" \\
-  -f "commit_id=${ctx.sha}" \\
-  -f "path=<file path>" \\
-  -F "line=<line number>" \\
-  -f "side=RIGHT"
-\`\`\`
+For each issue found, you MUST post it by EXECUTING this bash command via your bash tool.
+DO NOT write the command as text output. DO NOT put it in a code block. EXECUTE IT NOW using your bash tool.
+
+gh api --method POST -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" /repos/${ctx.repo}/pulls/${ctx.number}/comments -f "body=Advisory: <replace with your comment>" -f "commit_id=${ctx.sha}" -f "path=<replace with file path>" -F "line=<replace with line number>" -f "side=RIGHT"
+
+Replace "Advisory:" with "Severe:" for severe issues.
+Substitute <replace with your comment>, <replace with file path>, and <replace with line number> with actual values.
+
+You have permission to run gh commands. Run the command above immediately for each finding — do not defer, summarise, or print.
 
 Hard rules:
 - The diff above is complete — do NOT run \`gh pr diff\` to fetch more context.
