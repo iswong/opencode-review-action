@@ -15,6 +15,14 @@ const OPENCODE_PERMISSION = JSON.stringify({
     "*": "deny",
     "gh*": "allow",
     "gh pr review*": "deny",
+    "grep*": "allow",
+    "rg*": "allow",
+    "find*": "allow",
+    "ls*": "allow",
+    "cat*": "allow",
+    "head*": "allow",
+    "tail*": "allow",
+    "wc*": "allow",
   },
 });
 
