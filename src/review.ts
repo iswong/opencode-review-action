@@ -22,6 +22,7 @@ const OPENCODE_PERMISSION = JSON.stringify({
     "head*": "allow",
     "tail*": "allow",
     "wc*": "allow",
+    "awk*": "allow",
   },
 });
 
